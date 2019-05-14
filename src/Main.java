@@ -1,9 +1,13 @@
+import com.sun.deploy.util.ArrayUtil;
+import com.sun.tools.javac.util.ArrayUtils;
+import java.util.Arrays;
 import java.lang.reflect.Array;
+import java.util.Arrays;
 
 public class Main {
 
     public static void main(String[] args) {
-//        System.out.println("Hello World! " + args[0]);
+
 
         int upperLimit = 4999;
         int lowerLimit = 0;
@@ -12,26 +16,72 @@ public class Main {
 
         fillArray(cylinders);
 
-        System.out.println("the result is " + sstf(2150, test));
-//        System.out.println("the result is " + fcfs(2150, test));
+        System.out.println("SSTF: " + sstf(2150, test));
+        System.out.println("FCFS: " + fcfs(2150, test));
+        System.out.println("LOOK: " + look(2150, test));
+
+
 
         // Ready Algorithms //
 //        fcfs(Integer.parseInt(args[0]), cylinders);
 //        sstf(Integer.parseInt(args[0]), test);
     }
 
+    private static int look(int head, int [] arr){
+
+        int sum = 0;
+        int tempArr[] = arr; //make a copy of an array
+        Arrays.sort(tempArr); // sort if to make algorithm easier
+        int indexOfClosest = getclosestCylinder(head,tempArr); // get the first closest item to determine direction
+        int leftArr[] = {}; // Left part of array from head
+        int rightArr[] = {}; // Right part of array from head
+        boolean goLeft = true; // To make decision which way to go
+
+        sum += getDistance(head, tempArr[indexOfClosest]); // get the distance to the first object from head
+
+        //this will fill in arrays
+        if(tempArr[indexOfClosest] <= head){
+            leftArr = Arrays.copyOfRange(tempArr, 0, indexOfClosest);
+            rightArr = Arrays.copyOfRange(tempArr, indexOfClosest + 1, tempArr.length);
+        } else if (tempArr[indexOfClosest] > head){
+            goLeft = false;
+            rightArr = Arrays.copyOfRange(tempArr, indexOfClosest, tempArr.length);
+            leftArr = Arrays.copyOfRange(tempArr, 0 , indexOfClosest -1);
+        }
+
+        // left array has to be reversed to reuse fcfs algorithm
+        for(int i = 0; i < leftArr.length / 2; i++)
+        {
+            int temp = leftArr[i];
+            leftArr[i] = leftArr[leftArr.length - i - 1];
+            leftArr[leftArr.length - i - 1] = temp;
+        }
+
+        //this is where magic happens
+        if(goLeft){
+            sum += fcfs(indexOfClosest,leftArr);
+            sum += fcfs(leftArr[leftArr.length-1],rightArr);
+        }else{
+            sum += fcfs(indexOfClosest,rightArr);
+            sum += fcfs(leftArr[rightArr.length-1],leftArr);
+        }
+
+        return sum;
+    }
+
     private static int sstf(int head, int [] arr){
+        int tempArr[] = arr;
         int sum = 0;
         int currentCylinder = head;
 
-        for(int i = 0; i < arr.length; i ++){
-            int closest = getclosestCylinder(currentCylinder, arr);
-            System.out.println("closest: " + arr[closest]);
-            sum += getDistance(currentCylinder,arr[closest]);
-            currentCylinder = arr[closest];
-            arr[closest] = 0;
+        for(int i = 0; i < tempArr.length; i ++){
+            int closest = getclosestCylinder(currentCylinder, tempArr);
+            System.out.println("closest: " + tempArr[closest]);
+            sum += getDistance(currentCylinder,tempArr[closest]);
+            currentCylinder = tempArr[closest];
+            tempArr[closest] = 9999;
         }
-        System.out.println(sum);
+        
         return sum;
     }
 
@@ -56,7 +106,7 @@ public class Main {
         int cylinderLocation = 0;
 
         for(int i = 0; i < arr.length; i++){
-            if(arr[i] != 0){
+            if(arr[i] != 9999){
                 int currentDistance = getDistance(beggining, arr[i]);
                 if(currentDistance < closest){
 
