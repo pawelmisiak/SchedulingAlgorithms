@@ -69,9 +69,16 @@ public class Main {
             sum += fcfs(indexOfClosest,leftArr);
             sum += fcfs(leftArr[leftArr.length-1],rightArr);
         }else{
-            sum += fcfs(indexOfClosest,rightArr);
-            sum += fcfs(leftArr[leftArr.length-1],leftArr);
+//            sum += fcfs(indexOfClosest,rightArr);
+            System.out.println("I am looking for those values ");
+            sum += fcfs(tempArr[indexOfClosest],rightArr);
+//            sum += fcfs(leftArr[leftArr.length-1],leftArr);
+            sum += fcfs(rightArr[rightArr.length-1],leftArr);
+//            sum += getDistance(head,rightArr[0]);
+
+//            sum += getDistance(rightArr[rightArr.length-1], leftArr[0]);
         }
+
 
         return sum;
     }
@@ -123,6 +130,9 @@ public class Main {
     }
 
     private static int getDistance(int a, int b){
+        System.out.println("val a " + a);
+        System.out.println("val b " + b);
+        System.out.println(Math.abs(a-b));
         return Math.abs(a-b);
     }
 
