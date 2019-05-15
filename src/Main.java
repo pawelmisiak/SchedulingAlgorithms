@@ -21,7 +21,6 @@ public class Main {
 
         System.out.println("FCFS: " + fcfs(2150, test));
         System.out.println("SSTF: " + sstf(2150, test));
-        System.out.println("SCAN: " + look(2150, test, false, true));
         System.out.println("LOOK: " + look(2150, test, false, false));
         System.out.println("CLOOK: " + look(2150, test, true, false));
 
@@ -41,8 +40,6 @@ public class Main {
         Arrays.sort(tempArr); // sort if to make algorithm easier
         int indexOfClosest = getclosestCylinder(head,tempArr); // get the first closest item to determine direction
         int leftArr[] = {}; // Left part of array from head
-//        List leftArr = Arrays.asList(tempArr);
-
         int rightArr[] = {}; // Right part of array from head
         boolean goLeft = true; // To make decision which way to go
 
@@ -74,7 +71,7 @@ public class Main {
             sum += fcfs(leftArr[leftArr.length-1],rightArr);
         }else{
             sum += fcfs(indexOfClosest,rightArr);
-            sum += fcfs(leftArr[rightArr.length-1],leftArr);
+            sum += fcfs(leftArr[leftArr.length-1],leftArr);
         }
 
         return sum;
