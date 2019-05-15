@@ -1,41 +1,36 @@
-import com.sun.deploy.util.ArrayUtil;
-import com.sun.tools.javac.util.ArrayUtils;
+import java.util.Arrays;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
 
 
-        int upperLimit = 4999;
-        int lowerLimit = 0;
         int[] cylinders = new int[1000];
-        int test[] = {2069,1212,2296,2800,544,1618,356,1523,4965,3681};
 
         fillArray(cylinders);
 
-        System.out.println("FCFS: " + fcfs(2150, test));
-        System.out.println("SSTF: " + sstf(2150, test));
-        System.out.println("LOOK: " + look(2150, test, false ,false, false));
-        System.out.println("LOOK to left: " + look(2150, test, true ,false, false)); // going left
-        System.out.println("CLOOK: " + look(2150, test, false,true, false));
-        System.out.println("CLOOK to left: " + look(2150, test, true,true, false)); //going left
+        System.out.println("FCFS: " + fcfs(2150, cylinders));
+        System.out.println("SSTF: " + sstf(2150, cylinders));
+        System.out.println("SCAN to right: " + lookAndScan(2150, cylinders, false ,false, true));
+        System.out.println("SCAN to left: " + lookAndScan(2150, cylinders, true ,false, true));
+        System.out.println("C-SCAN to right: " + lookAndScan(2150, cylinders, false ,true, true));
+        System.out.println("C-SCAN to left: " + lookAndScan(2150, cylinders, true ,true, true));
+        System.out.println("LOOK to right: " + lookAndScan(2150, cylinders, false ,false, false));
+        System.out.println("LOOK to left: " + lookAndScan(2150, cylinders, true ,false, false)); // going left
+        System.out.println("C-LOOK to right: " + lookAndScan(2150, cylinders, false,true, false));
+        System.out.println("C-LOOK to left: " + lookAndScan(2150, cylinders, true,true, false)); //going left
 
 
 
         // Ready Algorithms //
-//        fcfs(Integer.parseInt(args[0]), cylinders);
+        fcfs(Integer.parseInt(args[0]), cylinders);
 //        sstf(Integer.parseInt(args[0]), test);
     }
 
 
 
-    private static int look(int head, int [] arr,boolean goLeft, boolean isC, boolean isScan){
+    private static int lookAndScan(int head, int [] arr,boolean goLeft, boolean isC, boolean isScan){
 
         int sum = 0;
         int tempArr[] = Arrays.copyOf(arr,arr.length); //make a copy of an array (by value)
@@ -62,16 +57,24 @@ public class Main {
             }
         }
 
-//
-//        System.out.println("left arr");
-//        for(int i = 0; i < leftArr.length; i++){
-//            System.out.println(i + " " +leftArr[i]);
-//        }
-//        System.out.println("right arr");
-//        for(int i = 0; i < rightArr.length; i++){
-//            System.out.println(i + " " +rightArr[i]);
-//        }
+        if (isScan){
+            if(goLeft){ // Going left
+                sum += getDistance(head, 0);
+                if (isC){
+                    sum += getDistance(4999, rightArr[0]);
+                }else{
+                    sum += getDistance(0, rightArr[rightArr.length-1]);
+                }
+            }else{ // Going right
+                sum += getDistance(head, 4999);
+                if (isC){
+                    sum += getDistance(0, leftArr[leftArr.length-1]);
+                }else{
+                    sum += getDistance(4999, leftArr[leftArr.length-1]);
+                }
+            }
 
+        }else {
 
         if(goLeft){ // Going left
             sum += getDistance(head, leftArr[leftArr.length-1]);
@@ -80,7 +83,7 @@ public class Main {
             sum += getDistance(head, rightArr[rightArr.length-1]);
             sum += getDistance(rightArr[rightArr.length-1], leftArr[leftArr.length-1]);
         }
-
+        }
 
         return sum;
     }
