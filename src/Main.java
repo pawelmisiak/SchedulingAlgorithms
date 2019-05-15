@@ -21,8 +21,8 @@ public class Main {
 
         System.out.println("FCFS: " + fcfs(2150, test));
         System.out.println("SSTF: " + sstf(2150, test));
-        System.out.println("LOOK: " + look(2150, test, false, false));
-        System.out.println("CLOOK: " + look(2150, test, true, false));
+        System.out.println("LOOK: " + look(2150, test, false ,false, false));
+        System.out.println("CLOOK: " + look(2150, test, false,true, false));
 
 
 
@@ -33,7 +33,7 @@ public class Main {
 
 
 
-    private static int look(int head, int [] arr, boolean isC, boolean isScan){
+    private static int look(int head, int [] arr,boolean goLeft, boolean isC, boolean isScan){
 
         int sum = 0;
         int tempArr[] = Arrays.copyOf(arr,arr.length); //make a copy of an array (by value)
@@ -41,15 +41,14 @@ public class Main {
         int indexOfClosest = getclosestCylinder(head,tempArr); // get the first closest item to determine direction
         int leftArr[] = {}; // Left part of array from head
         int rightArr[] = {}; // Right part of array from head
-        boolean goLeft = true; // To make decision which way to go
+
 
         sum += getDistance(head, tempArr[indexOfClosest]); // get the distance to the first object from head
         //this will fill in arrays
-        if(tempArr[indexOfClosest] <= head){
+        if(goLeft){
             leftArr = Arrays.copyOfRange(tempArr, 0, indexOfClosest);
             rightArr = Arrays.copyOfRange(tempArr, indexOfClosest + 1, tempArr.length);
-        } else if (tempArr[indexOfClosest] > head){
-            goLeft = false;
+        } else if (!goLeft){
             rightArr = Arrays.copyOfRange(tempArr, indexOfClosest, tempArr.length);
             leftArr = Arrays.copyOfRange(tempArr, 0 , indexOfClosest -1);
         }
