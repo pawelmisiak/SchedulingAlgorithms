@@ -10,21 +10,21 @@ public class Main {
 
         fillArray(cylinders);
 
-        System.out.println("FCFS: " + fcfs(2150, cylinders));
-        System.out.println("SSTF: " + sstf(2150, cylinders));
-        System.out.println("SCAN to right: " + lookAndScan(2150, cylinders, false ,false, true));
-        System.out.println("SCAN to left: " + lookAndScan(2150, cylinders, true ,false, true));
-        System.out.println("C-SCAN to right: " + lookAndScan(2150, cylinders, false ,true, true));
-        System.out.println("C-SCAN to left: " + lookAndScan(2150, cylinders, true ,true, true));
-        System.out.println("LOOK to right: " + lookAndScan(2150, cylinders, false ,false, false));
-        System.out.println("LOOK to left: " + lookAndScan(2150, cylinders, true ,false, false)); // going left
-        System.out.println("C-LOOK to right: " + lookAndScan(2150, cylinders, false,true, false));
-        System.out.println("C-LOOK to left: " + lookAndScan(2150, cylinders, true,true, false)); //going left
+        System.out.println("FCFS: " + fcfs(Integer.parseInt(args[0]), cylinders));
+        System.out.println("SSTF: " + sstf(Integer.parseInt(args[0]), cylinders));
+        System.out.println("SCAN to right: " + lookAndScan(Integer.parseInt(args[0]), cylinders, false ,false, true));
+        System.out.println("SCAN to left: " + lookAndScan(Integer.parseInt(args[0]), cylinders, true ,false, true));
+        System.out.println("C-SCAN to right: " + lookAndScan(Integer.parseInt(args[0]), cylinders, false ,true, true));
+        System.out.println("C-SCAN to left: " + lookAndScan(Integer.parseInt(args[0]), cylinders, true ,true, true));
+        System.out.println("LOOK to right: " + lookAndScan(Integer.parseInt(args[0]), cylinders, false ,false, false));
+        System.out.println("LOOK to left: " + lookAndScan(Integer.parseInt(args[0]), cylinders, true ,false, false)); // going left
+        System.out.println("C-LOOK to right: " + lookAndScan(Integer.parseInt(args[0]), cylinders, false,true, false));
+        System.out.println("C-LOOK to left: " + lookAndScan(Integer.parseInt(args[0]), cylinders, true,true, false)); //going left
 
 
 
         // Ready Algorithms //
-        fcfs(Integer.parseInt(args[0]), cylinders);
+//        System.out.println(fcfs(, cylinders));
 //        sstf(Integer.parseInt(args[0]), test);
     }
 
