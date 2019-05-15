@@ -22,7 +22,9 @@ public class Main {
         System.out.println("FCFS: " + fcfs(2150, test));
         System.out.println("SSTF: " + sstf(2150, test));
         System.out.println("LOOK: " + look(2150, test, false ,false, false));
+        System.out.println("LOOK to left: " + look(2150, test, true ,false, false)); // going left
         System.out.println("CLOOK: " + look(2150, test, false,true, false));
+        System.out.println("CLOOK to left: " + look(2150, test, true,true, false)); //going left
 
 
 
@@ -42,20 +44,16 @@ public class Main {
         int leftArr[] = {}; // Left part of array from head
         int rightArr[] = {}; // Right part of array from head
 
-
-        sum += getDistance(head, tempArr[indexOfClosest]); // get the distance to the first object from head
         //this will fill in arrays
-        if(goLeft){
-            leftArr = Arrays.copyOfRange(tempArr, 0, indexOfClosest);
-            rightArr = Arrays.copyOfRange(tempArr, indexOfClosest + 1, tempArr.length);
-        } else if (!goLeft){
-            rightArr = Arrays.copyOfRange(tempArr, indexOfClosest, tempArr.length);
-            leftArr = Arrays.copyOfRange(tempArr, 0 , indexOfClosest -1);
-        }
+
+        rightArr = Arrays.copyOfRange(tempArr, indexOfClosest+1, tempArr.length);
+        leftArr = Arrays.copyOfRange(tempArr, 0 , indexOfClosest +1);
+
 
         // left array has to be reversed to reuse fcfs algorithm
         // also decide here if we will reverse the arr for LOOK or not for CLOOK
-        if (!isC){
+
+        if(!isC){
             for(int i = 0; i < leftArr.length / 2; i++)
             {
                 int temp = leftArr[i];
@@ -64,19 +62,23 @@ public class Main {
             }
         }
 
-        //this is where magic happens
-        if(goLeft){
-            sum += fcfs(indexOfClosest,leftArr);
-            sum += fcfs(leftArr[leftArr.length-1],rightArr);
-        }else{
-//            sum += fcfs(indexOfClosest,rightArr);
-            System.out.println("I am looking for those values ");
-            sum += fcfs(tempArr[indexOfClosest],rightArr);
-//            sum += fcfs(leftArr[leftArr.length-1],leftArr);
-            sum += fcfs(rightArr[rightArr.length-1],leftArr);
-//            sum += getDistance(head,rightArr[0]);
+//
+//        System.out.println("left arr");
+//        for(int i = 0; i < leftArr.length; i++){
+//            System.out.println(i + " " +leftArr[i]);
+//        }
+//        System.out.println("right arr");
+//        for(int i = 0; i < rightArr.length; i++){
+//            System.out.println(i + " " +rightArr[i]);
+//        }
 
-//            sum += getDistance(rightArr[rightArr.length-1], leftArr[0]);
+
+        if(goLeft){ // Going left
+            sum += getDistance(head, leftArr[leftArr.length-1]);
+            sum += getDistance(leftArr[leftArr.length-1], rightArr[rightArr.length-1]);
+        }else{ // Going right
+            sum += getDistance(head, rightArr[rightArr.length-1]);
+            sum += getDistance(rightArr[rightArr.length-1], leftArr[leftArr.length-1]);
         }
 
 
@@ -130,9 +132,6 @@ public class Main {
     }
 
     private static int getDistance(int a, int b){
-        System.out.println("val a " + a);
-        System.out.println("val b " + b);
-        System.out.println(Math.abs(a-b));
         return Math.abs(a-b);
     }
 
